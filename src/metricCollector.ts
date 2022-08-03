@@ -44,7 +44,10 @@ export class MetricCollector {
   ) {
     const { logger, autoDiscover, redis, metricPrefix, ...bullOpts } = opts;
     this.redisUri = redis;
-    this.defaultRedisClient = new IoRedis(this.redisUri);
+    this.defaultRedisClient = new IoRedis(this.redisUri, {
+      maxRetriesPerRequest: null,
+      enableReadyCheck: false
+    });
     this.defaultRedisClient.setMaxListeners(32);
     this.bullOpts = bullOpts;
     this.logger = logger || globalLogger;
